@@ -814,7 +814,7 @@ var LZMA = (function () {
         }*/
         
         if (this$static._pos >= this$static._windowSize) {
-            console.log("Note: flush_0 called")
+            //console.log("Note: flush_0 called")
             $Flush_0(this$static);
         }
     }
@@ -880,7 +880,7 @@ var LZMA = (function () {
     }
 
     function phi_lzmacoder_reset(this$static) {
-        console.log("lzma.reset() called");
+        //console.log("lzma.reset() called");
         this$static.rep0 = 0;
         this$static.rep1 = 0;
         this$static.rep2 = 0;
@@ -921,7 +921,7 @@ var LZMA = (function () {
         }
     }
     function phi_lz_reset(this$static /* LZDecoder */) {
-        console.log("lz.reset() called");
+        // console.log("lz.reset() called");
         // Note: these don't correspond to LZMA1; could be necessary, may need porting.
         //this$static.start = 0;
         //this$static.pos = 0;
@@ -931,7 +931,7 @@ var LZMA = (function () {
 
         //throw new Error("Not implemented");
     }
-    var numLZMAResets = -500000;
+    //var numLZMAResets = -500000;
     function phi_lzma_reset(this$static /* LZMADecoder; bytearrayinputstream? */) {
         // Calls:
         // super.reset(); aka LZMACoder::reset(), so:
@@ -947,7 +947,7 @@ var LZMA = (function () {
         $Init(this$static.m_RepLenDecoder);
         //phi_matchlendecoder_reset(this$static.m_LenDecoder);
         //phi_matchlendecoder_reset(this$static.m_RepLenDecoder);
-        numLZMAResets++;
+        //numLZMAResets++;
 
      //   this$static.start = 0;
       //  this$static.pos = 0;
@@ -1031,10 +1031,10 @@ var LZMA = (function () {
             phi_prepareInputBuffer(this$static.decoder.m_RangeDecoder, this$static.compressedSize);
             this$static.compressedSize -= 5; // INIT_SIZE
 
-            console.log("control " + control + ": compressed " + this$static.compressedSize + 
+            /*console.log("control " + control + ": compressed " + this$static.compressedSize + 
                 ", uncomp " + this$static.uncompressedSize + ", read in pos is now " + 
                 this$static.decoder.m_RangeDecoder.Stream.pos + ", out pos is " +
-                this$static.decoder.m_OutWindow._pos);
+                this$static.decoder.m_OutWindow._pos);*/
 
         } else if (control > 0x02) {
             throw new Error("CorruptedInputException");
@@ -1043,10 +1043,10 @@ var LZMA = (function () {
             this$static.compressedSize = undefined;
             this$static.uncompressedSize = lzma2_readUnsignedShort(this$static.decoder.m_RangeDecoder.Stream) + 1;
 
-            console.log("control " + control + ": copy block of " + this$static.uncompressedSize +
+            /*console.log("control " + control + ": copy block of " + this$static.uncompressedSize +
                 ", read in pos is now " + 
                 this$static.decoder.m_RangeDecoder.Stream.pos + ", out pos is " +
-                this$static.decoder.m_OutWindow._pos);
+                this$static.decoder.m_OutWindow._pos);*/
         }
     }
 
@@ -1081,15 +1081,15 @@ var LZMA = (function () {
                 this$static.decoder.prevByte = $GetByte(this$static.decoder.m_OutWindow, 0);
                 this$static.decoder.m_RangeDecoder.Stream.pos += this$static.uncompressedSize; // +5?
                 this$static.uncompressedSize = 0;
-                console.log("After copy block, output pos is " + this$static.decoder.nowPos64[0] + 
-                    ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);
+                /*console.log("After copy block, output pos is " + this$static.decoder.nowPos64[0] + 
+                    ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);*/
                 return;
             }
         }
 
         var endPos = this$static.decoder.m_RangeDecoder.Stream.pos + this$static.compressedSize;
-        console.log("Before LZMA block, output pos is " + this$static.decoder.nowPos64[0] + 
-                    ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);
+        /*console.log("Before LZMA block, output pos is " + this$static.decoder.nowPos64[0] + 
+                    ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);*/
 
         for (var i = 0; ; i++) {
             // known as .code(...) in the JAVA
@@ -1102,12 +1102,12 @@ var LZMA = (function () {
             this$static.outBytesProcessed = this$static.decoder.nowPos64;
 
             if (this$static.decoder.m_RangeDecoder.Stream.pos >= endPos) {
-                console.log("break; endpos");
+                // console.log("break; endpos");
                 break;
             }
 
             if (!(this$static.lzma2) || eq(this$static.outBytesProcessed, fromInt(this$static.uncompressedSize))) {
-                console.log("break; outbytes = uncompressedSize at i = " + i + ", due to " + this$static.outBytesProcessed[0] + " = " + this$static.uncompressedSize);
+                // console.log("break; outbytes = uncompressedSize at i = " + i + ", due to " + this$static.outBytesProcessed[0] + " = " + this$static.uncompressedSize);
                 break;
             }
         }
@@ -1120,8 +1120,8 @@ var LZMA = (function () {
             phi_cleanupDecoder(this$static);
         }
 
-        console.log("After LZMA block, output pos is " + this$static.decoder.nowPos64[0] + 
-             ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);
+        /*console.log("After LZMA block, output pos is " + this$static.decoder.nowPos64[0] + 
+             ", prev byte " + (this$static.decoder.prevByte & 0xFF) + ", Stream pos " + this$static.decoder.m_RangeDecoder.Stream.pos);*/
 
     }
     /** de */
@@ -1156,8 +1156,8 @@ var LZMA = (function () {
     function $CodeOneChunk(this$static) {
         var decoder2, distance, len, numDirectBits, posSlot, posState;
 
-        if (numLZMAResets > 1)
-            console.log("decode() -> loop");
+        /*if (numLZMAResets > 1)
+            console.log("decode() -> loop");*/
         posState = lowBits_0(this$static.nowPos64) & this$static.m_PosStateMask;
 
         if (!$DecodeBit(this$static.m_RangeDecoder, this$static.m_IsMatchDecoders, (this$static.state << 4) + posState)) {
