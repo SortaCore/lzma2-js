@@ -45,7 +45,7 @@ var LZMA = (function () {
             action: action_progress,
             cbn: cbn,
             result: percent
-        }, "");
+        });
     }
 
     function initDim(len) {
@@ -763,10 +763,10 @@ var LZMA = (function () {
                 pos = 0;
             }
             this$static._buffer[this$static._pos++] = this$static._buffer[pos++];
-            if (window.expOutput[this$static._stream.count + this$static._pos - 1] != this$static._buffer[this$static._pos - 1]) {
+            /*if (window.expOutput[this$static._stream.count + this$static._pos - 1] != this$static._buffer[this$static._pos - 1]) {
                 console.log("CopyBlock: Incorrect byte at position " + (this$static._pos - 1) + ", exp " + window.expOutput[this$static._pos - 1] + ", act " + this$static._buffer[this$static._pos - 1]);
                 debugger;
-            }
+            }*/
             if (this$static._pos >= this$static._windowSize) {
                 $Flush_0(this$static);
             }
@@ -1391,12 +1391,7 @@ var LZMA = (function () {
     }
 
     function $GetDecoder(this$static, pos, prevByte) {
-        var b = function g() {
         return this$static.m_Coders[((pos & this$static.m_PosMask) << this$static.m_NumPrevBits) + ((prevByte & 255) >>> 8 - this$static.m_NumPrevBits)];
-        }();
-        if (b == null)
-            debugger;
-        return b;
     }
 
     function $Init_0(this$static) {
@@ -1476,10 +1471,7 @@ var LZMA = (function () {
         var testVarAtPos = this$static.Stream.pos;
         var testVar = $read(this$static.Stream);
         if (testVar != 0x00)
-        {
-            debugger;
             throw new Error("CorruptedInputException");
-        }
             
         phi_setCode(this$static, phi_readInt(this$static.Stream));
         // this$static.Range = 0xFFFFFFFF; //-1; // was 0xFFFFFFFF
@@ -3013,7 +3005,6 @@ var LZMA = (function () {
             this$static.d.lzma2 = true;
             this$static.d.chunker.lzma2 = true;
             while ($processChunk(this$static.d.chunker));
-            debugger;
             return decode($toByteArray(this$static.d.output));
         }
 
